@@ -1,15 +1,12 @@
-import { library } from "@fortawesome/fontawesome-svg-core";
-import { faCheckCircle, faTrashAlt } from "@fortawesome/free-regular-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import classNames from "classnames";
+import clsx from "clsx";
 import React from "react";
 import { useDrag } from "react-dnd";
 import { SectionAlias } from "../../shared/enums/section-alias.enum";
+import { Icons, IconTypes } from "../../shared/lib/font-awesome-icon/icons";
 import { ITask } from "../../shared/models/task.interface";
-import { markTask, removeTask } from "../../shared/store";
-import "./TaskCard.scss";
-
-library.add(faCheckCircle, faTrashAlt);
+import { removeTask } from "../../shared/store";
+import styles from "./TaskCard.module.scss";
 
 export const TaskCard: React.FC<{ task: ITask; accentColor: string }> = ({
   task,
@@ -26,37 +23,37 @@ export const TaskCard: React.FC<{ task: ITask; accentColor: string }> = ({
   return (
     <div
       ref={drag}
-      className={classNames("task", { "task--completed": task.completed })}
+      className={clsx(styles.task, { [styles._completed]: task.completed })}
       style={{
         opacity: isDragging ? 0.5 : 1,
       }}
     >
-      <h3 className="task__title">{task.title}</h3>
-      <span className="task__date" style={{ color: accentColor }}>
+      <h3 className={styles.task__title}>{task.title}</h3>
+      <span className={styles.task__date} style={{ color: accentColor }}>
         {new Date(task.creationDate).toLocaleDateString()}
       </span>
-      <p className="task__content">{task.content}</p>
-      <div className="task__actions">
+      <p className={styles.task__content}>{task.content}</p>
+      <div className={styles.task__actions}>
         {task.sectionAlias !== SectionAlias.DONE && (
           <button
-            className="action"
+            className={styles.action}
             type="button"
-            onClick={() => markTask(task)}
+            // onClick={() => markTask(task)}
           >
             <FontAwesomeIcon
-              className="action__icon--mark"
-              icon={["far", "check-circle"]}
+              className={styles.action__icon_mark}
+              icon={[IconTypes.regular, Icons.faCheckCircle]}
             />
           </button>
         )}
         <button
-          className="action"
+          className={styles.action}
           type="button"
           onClick={() => removeTask(task)}
         >
           <FontAwesomeIcon
-            className="action__icon--remove"
-            icon={["far", "trash-alt"]}
+            className={styles.action__icon_remove}
+            icon={[IconTypes.regular, Icons.faTrashAlt]}
           />
         </button>
       </div>

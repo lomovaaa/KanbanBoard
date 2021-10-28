@@ -1,124 +1,132 @@
+import { combine, createEvent, createStore, split } from "effector";
+import { actions } from "./actions";
 import { SectionAlias } from "./enums/section-alias.enum";
-import { createEvent, createStore } from "effector";
 import { ISection } from "./models/section.interface";
 import { ITask } from "./models/task.interface";
-import { v4 as uuidv4 } from "uuid";
 
-const getAllSections = (): ISection[] => {
-  if (JSON.parse(localStorage.getItem("sections") as string) === null) {
-    const emptySections = [
-      {
-        alias: SectionAlias.IDEA,
-        title: "Idea",
-        accentColor: "#E7AA7E",
-        tasks: [],
-      },
-      {
-        alias: SectionAlias.TODO,
-        title: "To do",
-        accentColor: "#D37171",
-        tasks: [],
-      },
-      {
-        alias: SectionAlias.IN_PROCESS,
-        title: "In process",
-        accentColor: "#85C5F3",
-        tasks: [],
-      },
-      {
-        alias: SectionAlias.DONE,
-        title: "Done",
-        accentColor: "#8ACC48",
-        tasks: [],
-      },
-    ];
-    updateLocalStorage(emptySections);
+const sectionDescription: ISection[] = [
+  {
+    alias: SectionAlias.IDEA,
+    title: "Idea",
+    accentColor: "#E7AA7E",
+    tasks: [],
+  },
+  {
+    alias: SectionAlias.TODO,
+    title: "To do",
+    accentColor: "#D37171",
+    tasks: [],
+  },
+  {
+    alias: SectionAlias.IN_PROCESS,
+    title: "In process",
+    accentColor: "#85C5F3",
+    tasks: [],
+  },
+  {
+    alias: SectionAlias.DONE,
+    title: "Done",
+    accentColor: "#8ACC48",
+    tasks: [],
+  },
+];
+
+const getSectionData = (alias: SectionAlias) => {
+  const section = sectionDescription.filter((d) => d.alias === alias)[0];
+  if (JSON.parse(localStorage.getItem(alias) as string) === null) {
+    updateLocalStorage(alias, []);
   }
-  return JSON.parse(localStorage.getItem("sections") as string);
+  section.tasks = JSON.parse(localStorage.getItem(alias) as string);
+  return section;
 };
 
-const updateLocalStorage = (data: ISection[]) => {
-  localStorage.setItem("sections", JSON.stringify(data));
+export const updateLocalStorage = (alias: SectionAlias, data: ITask[]) => {
+  localStorage.setItem(alias, JSON.stringify(data));
 };
 
-export const $sections = createStore<ISection[]>(getAllSections());
+export const $idea = createStore<ISection>(getSectionData(SectionAlias.IDEA));
+export const $toDo = createStore<ISection>(getSectionData(SectionAlias.TODO));
+export const $inProcess = createStore<ISection>(
+  getSectionData(SectionAlias.IN_PROCESS)
+);
+export const $done = createStore<ISection>(getSectionData(SectionAlias.DONE));
 
-export const markTask = createEvent<ITask>();
+export const $sections = combine([$idea, $toDo, $inProcess, $done]);
+
 export const addTask = createEvent<ITask>();
 export const removeTask = createEvent<ITask>();
 export const moveTask = createEvent<{ task: ITask; targetAlias: string }>();
 
-const markTaskReducer = (state: ISection[], task: ITask) => {
-  const getTasks = (section: ISection, task: ITask) => {
-    switch (section.alias) {
-      case SectionAlias.DONE: {
-        return [
-          { ...task, completed: true, sectionAlias: SectionAlias.DONE },
-          ...section.tasks,
-        ];
-      }
-      case task.sectionAlias: {
-        return section.tasks.filter((t) => t.id !== task.id);
-      }
-      default: {
-        return [...section.tasks];
-      }
-    }
-  };
-  const newState = state.map((section) => ({
-    ...section,
-    tasks: getTasks(section, task),
-  }));
-  updateLocalStorage(newState);
-  return newState;
-};
-$sections.on(markTask, markTaskReducer);
+const addIdea = createEvent<ITask>();
+const addTodo = createEvent<ITask>();
+const addInProcess = createEvent<ITask>();
+const addDone = createEvent<ITask>();
 
-const addTaskReducer = (state: ISection[], task: ITask) => {
-  const newState = state.map((section) => ({
-    ...section,
-    tasks:
-      section.alias === task.sectionAlias
-        ? [...section.tasks, { ...task, id: uuidv4() }]
-        : section.tasks,
-  }));
-  updateLocalStorage(newState);
-  return newState;
-};
-$sections.on(addTask, addTaskReducer);
+const removeIdea = createEvent<ITask>();
+const removeTodo = createEvent<ITask>();
+const removeInProcess = createEvent<ITask>();
+const removeDone = createEvent<ITask>();
 
-const removeTaskReducer = (state: ISection[], task: ITask) => {
-  const newState = state.map((section) => ({
-    ...section,
-    tasks:
-      section.alias === task.sectionAlias
-        ? section.tasks.filter((t) => t.id !== task.id)
-        : section.tasks,
-  }));
-  updateLocalStorage(newState);
-  return newState;
-};
-$sections.on(removeTask, removeTaskReducer);
+split({
+  source: addTask,
+  match: {
+    idea: (task) => task.sectionAlias === SectionAlias.IDEA,
+    todo: (task) => task.sectionAlias === SectionAlias.TODO,
+    inProcess: (task) => task.sectionAlias === SectionAlias.IN_PROCESS,
+    done: (task) => task.sectionAlias === SectionAlias.DONE,
+  },
+  cases: {
+    idea: addIdea,
+    todo: addTodo,
+    inProcess: addInProcess,
+    done: addDone,
+  },
+});
 
-const moveTaskReducer = (
-  state: ISection[],
-  {
-    task,
-    targetAlias,
-  }: {
-    task: ITask;
-    targetAlias: string;
-  }
-) => {
-  if (task.sectionAlias !== SectionAlias.DONE) {
-    removeTask(task);
-    addTask({
-      ...task,
-      sectionAlias: targetAlias,
-      completed:
-        targetAlias === SectionAlias.DONE ? !task.completed : task.completed,
-    });
-  }
-  return $sections.getState();
-};
-$sections.on(moveTask, moveTaskReducer);
+split({
+  source: removeTask,
+  match: {
+    idea: (task) => task.sectionAlias === SectionAlias.IDEA,
+    todo: (task) => task.sectionAlias === SectionAlias.TODO,
+    inProcess: (task) => task.sectionAlias === SectionAlias.IN_PROCESS,
+    done: (task) => task.sectionAlias === SectionAlias.DONE,
+  },
+  cases: {
+    idea: removeIdea,
+    todo: removeTodo,
+    inProcess: removeInProcess,
+    done: removeDone,
+  },
+});
+
+$idea
+  .on(addIdea, (state: ISection, task: ITask) =>
+    actions.addTaskAction(state, task)
+  )
+  .on(removeIdea, (state: ISection, task: ITask) =>
+    actions.removeTaskAction(state, task)
+  );
+
+$toDo
+  .on(addTodo, (state: ISection, task: ITask) =>
+    actions.addTaskAction(state, task)
+  )
+  .on(removeTodo, (state: ISection, task: ITask) =>
+    actions.removeTaskAction(state, task)
+  );
+
+$inProcess
+  .on(addInProcess, (state: ISection, task: ITask) =>
+    actions.addTaskAction(state, task)
+  )
+  .on(removeInProcess, (state: ISection, task: ITask) =>
+    actions.removeTaskAction(state, task)
+  );
+
+$done
+  .on(addDone, (state: ISection, task: ITask) =>
+    actions.addTaskAction(state, task)
+  )
+  .on(removeDone, (state: ISection, task: ITask) =>
+    actions.removeTaskAction(state, task)
+  );

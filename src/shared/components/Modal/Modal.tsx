@@ -1,11 +1,8 @@
-import { library } from '@fortawesome/fontawesome-svg-core';
-import { faTimes } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import React, { useEffect } from 'react';
-import ReactDOM from 'react-dom';
-import './Modal.scss';
-
-library.add(faTimes);
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import React, { useEffect } from "react";
+import ReactDOM from "react-dom";
+import { Icons, IconTypes } from "../../lib/font-awesome-icon/icons";
+import styles from "./Modal.module.scss";
 
 export const Modal: React.FC<{
   visible: boolean;
@@ -14,32 +11,39 @@ export const Modal: React.FC<{
 }> = ({ visible, onClose, form }) => {
   const onKeydown = ({ key }: KeyboardEvent) => {
     switch (key) {
-      case 'Escape':
+      case "Escape":
         onClose();
         break;
     }
   };
 
   useEffect(() => {
-    document.addEventListener('keydown', onKeydown);
-    return () => document.removeEventListener('keydown', onKeydown);
+    document.addEventListener("keydown", onKeydown);
+    return () => document.removeEventListener("keydown", onKeydown);
   });
 
   if (!visible) {
     return null;
   }
   return ReactDOM.createPortal(
-    <div className="modal">
-      <div className="modal-inner">
-        <div className="modal-header">
-          <h3 className="modal-header__title">Create task</h3>
-          <button className="modal-header__close" type="button" onClick={() => onClose()}>
-            <FontAwesomeIcon className="icon-close" icon={['fas', 'times']} />
+    <div className={styles.modal}>
+      <div className={styles["modal-inner"]}>
+        <div className={styles["modal-header"]}>
+          <h3 className={styles["modal-header__title"]}>Create task</h3>
+          <button
+            className={styles["modal-header__close"]}
+            type="button"
+            onClick={() => onClose()}
+          >
+            <FontAwesomeIcon
+              className={styles["icon-close"]}
+              icon={[IconTypes.solid, Icons.faTimes]}
+            />
           </button>
         </div>
-        <div className="form-container">{form}</div>
+        <div className={styles["form-container"]}>{form}</div>
       </div>
     </div>,
-    document.getElementById('root') as Element
+    document.getElementById("root") as Element
   );
 };
