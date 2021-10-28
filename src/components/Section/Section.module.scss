@@ -1,3 +1,5 @@
+@import "../../app/styles/colors";
+
 .section {
   display: flex;
   flex-direction: column;
@@ -10,7 +12,7 @@
     font-weight: 500;
     font-size: 24px;
     line-height: 28px;
-    color: #c0c0c0;
+    color: $light-gray;
   }
 
   &-header {
@@ -25,7 +27,7 @@
       font-weight: normal;
       font-size: 24px;
       line-height: 28px;
-      color: #fff;
+      color: $white;
     }
 
     &__task-counter {
@@ -34,7 +36,7 @@
       height: 24px;
       font-size: 14px;
       line-height: 16px;
-      color: #f3f3f3;
+      color: $input-color;
       border-radius: 50%;
 
       & span {
@@ -53,8 +55,8 @@
     height: 32px;
     position: relative;
     border-radius: 50%;
-    background-color: #fff;
-    box-shadow: -2px 2px 4px rgba(0, 0, 0, 0.05);
+    background-color: $white;
+    box-shadow: -2px 2px 4px $task-shadow;
   }
 }
 
@@ -76,6 +78,6 @@
     top: 50%;
     transform: translate(-50%, -50%);
     font-size: 13px;
-    color: #8c8c8c;
+    color: $dark-gray;
   }
 }

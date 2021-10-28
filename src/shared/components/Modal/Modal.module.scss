@@ -1,4 +1,4 @@
-@import "../../../app/styles/colors";
+@import '../../../app/styles/colors';
 
 .modal {
   position: fixed;
@@ -16,14 +16,14 @@
     transform: translate(-50%, -50%);
     width: 450px;
     border-radius: 15px;
-    background-color: #f3f3f3;
+    background-color: $input-color;
   }
 
   &-header {
     padding: 12px 28px;
     color: $white;
     border-radius: 15px 15px 0 0;
-    background-color: #d37171;
+    background-color: $accent-color-1;
 
     &__title {
       font-family: Roboto Condensed;
@@ -73,27 +73,27 @@
     font-weight: 500;
     font-size: 15px;
     line-height: 18px;
-    color: #8c8c8c;
+    color: $dark-gray;
   }
 
   &__input {
     resize: none;
     padding: 11px 8px;
-    box-shadow: inset 0px 0px 4px rgba(0, 0, 0, 0.05);
+    box-shadow: inset 0px 0px 4px $task-shadow;
     border-radius: 0px 10px 10px 10px;
-    background-color: #f3f3f3;
+    background-color: $input-color;
 
     font-weight: 500;
     font-size: 15px;
     line-height: 18px;
-    color: #8c8c8c;
+    color: $dark-gray;
   }
 
   &__submit-btn {
     cursor: pointer;
     padding: 8px 20px;
-    color: #da8e8e;
-    border: 2px solid #da8e8e;
+    color: $accent-color-1;
+    border: 2px solid $accent-color-1;
     border-radius: 10px;
     font-size: 14px;
     line-height: 16px;
@@ -101,7 +101,7 @@
 
     &:hover {
       color: $white;
-      background-color: #da8e8e;
+      background-color: $accent-color-1;
     }
   }
 }
