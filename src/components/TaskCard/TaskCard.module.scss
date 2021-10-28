@@ -1,4 +1,4 @@
-@import "../../app/styles/colors";
+@import '../../app/styles/colors';
 
 .task {
   position: relative;
@@ -43,7 +43,7 @@
     width: 275px;
     margin-bottom: 28px;
     height: 100%;
-    font-family: "Rubik";
+    font-family: 'Rubik';
     font-size: 14px;
     line-height: 17px;
     color: $dark-gray;

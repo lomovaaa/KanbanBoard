@@ -1,19 +1,16 @@
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import clsx from "clsx";
-import React from "react";
-import { useDrag } from "react-dnd";
-import { SectionAlias } from "../../shared/enums/section-alias.enum";
-import { Icons, IconTypes } from "../../shared/lib/font-awesome-icon/icons";
-import { ITask } from "../../shared/models/task.interface";
-import { removeTask } from "../../shared/store";
-import styles from "./TaskCard.module.scss";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import clsx from 'clsx';
+import React from 'react';
+import { useDrag } from 'react-dnd';
+import { SectionAlias } from '../../shared/enums/section-alias.enum';
+import { Icons, IconTypes } from '../../shared/lib/font-awesome-icon/icons';
+import { ITask } from '../../shared/models/task.interface';
+import { removeTask } from '../../shared/store';
+import styles from './TaskCard.module.scss';
 
-export const TaskCard: React.FC<{ task: ITask; accentColor: string }> = ({
-  task,
-  accentColor,
-}) => {
+export const TaskCard: React.FC<{ task: ITask; accentColor: string }> = ({ task, accentColor }) => {
   const [{ isDragging }, drag] = useDrag(() => ({
-    type: "task",
+    type: 'task',
     item: task,
     collect: (monitor) => ({
       isDragging: !!monitor.isDragging(),
@@ -40,21 +37,11 @@ export const TaskCard: React.FC<{ task: ITask; accentColor: string }> = ({
             type="button"
             // onClick={() => markTask(task)}
           >
-            <FontAwesomeIcon
-              className={styles.action__icon_mark}
-              icon={[IconTypes.regular, Icons.faCheckCircle]}
-            />
+            <FontAwesomeIcon className={styles.action__icon_mark} icon={[IconTypes.regular, Icons.faCheckCircle]} />
           </button>
         )}
-        <button
-          className={styles.action}
-          type="button"
-          onClick={() => removeTask(task)}
-        >
-          <FontAwesomeIcon
-            className={styles.action__icon_remove}
-            icon={[IconTypes.regular, Icons.faTrashAlt]}
-          />
+        <button className={styles.action} type="button" onClick={() => removeTask(task)}>
+          <FontAwesomeIcon className={styles.action__icon_remove} icon={[IconTypes.regular, Icons.faTrashAlt]} />
         </button>
       </div>
     </div>

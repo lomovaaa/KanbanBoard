@@ -1,7 +1,7 @@
-import { v4 as uuidv4 } from "uuid";
-import { ISection } from "../models/section.interface";
-import { ITask } from "../models/task.interface";
-import { updateLocalStorage } from "../store";
+import { v4 as uuidv4 } from 'uuid';
+import { ISection } from '../models/section.interface';
+import { ITask } from '../models/task.interface';
+import { updateLocalStorage } from '../store';
 
 export const addTaskAction = (section: ISection, task: ITask) => {
   const newSection = {

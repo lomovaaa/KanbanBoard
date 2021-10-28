@@ -1,32 +1,32 @@
-import { combine, createEvent, createStore, split } from "effector";
-import { actions } from "./actions";
-import { SectionAlias } from "./enums/section-alias.enum";
-import { ISection } from "./models/section.interface";
-import { ITask } from "./models/task.interface";
+import { combine, createEvent, createStore, split } from 'effector';
+import { actions } from './actions';
+import { SectionAlias } from './enums/section-alias.enum';
+import { ISection } from './models/section.interface';
+import { ITask } from './models/task.interface';
 
 const sectionDescription: ISection[] = [
   {
     alias: SectionAlias.IDEA,
-    title: "Idea",
-    accentColor: "#E7AA7E",
+    title: 'Idea',
+    accentColor: '#E7AA7E',
     tasks: [],
   },
   {
     alias: SectionAlias.TODO,
-    title: "To do",
-    accentColor: "#D37171",
+    title: 'To do',
+    accentColor: '#D37171',
     tasks: [],
   },
   {
     alias: SectionAlias.IN_PROCESS,
-    title: "In process",
-    accentColor: "#85C5F3",
+    title: 'In process',
+    accentColor: '#85C5F3',
     tasks: [],
   },
   {
     alias: SectionAlias.DONE,
-    title: "Done",
-    accentColor: "#8ACC48",
+    title: 'Done',
+    accentColor: '#8ACC48',
     tasks: [],
   },
 ];
@@ -46,9 +46,7 @@ export const updateLocalStorage = (alias: SectionAlias, data: ITask[]) => {
 
 export const $idea = createStore<ISection>(getSectionData(SectionAlias.IDEA));
 export const $toDo = createStore<ISection>(getSectionData(SectionAlias.TODO));
-export const $inProcess = createStore<ISection>(
-  getSectionData(SectionAlias.IN_PROCESS)
-);
+export const $inProcess = createStore<ISection>(getSectionData(SectionAlias.IN_PROCESS));
 export const $done = createStore<ISection>(getSectionData(SectionAlias.DONE));
 
 export const $sections = combine([$idea, $toDo, $inProcess, $done]);
@@ -100,33 +98,17 @@ split({
 });
 
 $idea
-  .on(addIdea, (state: ISection, task: ITask) =>
-    actions.addTaskAction(state, task)
-  )
-  .on(removeIdea, (state: ISection, task: ITask) =>
-    actions.removeTaskAction(state, task)
-  );
+  .on(addIdea, (state: ISection, task: ITask) => actions.addTaskAction(state, task))
+  .on(removeIdea, (state: ISection, task: ITask) => actions.removeTaskAction(state, task));
 
 $toDo
-  .on(addTodo, (state: ISection, task: ITask) =>
-    actions.addTaskAction(state, task)
-  )
-  .on(removeTodo, (state: ISection, task: ITask) =>
-    actions.removeTaskAction(state, task)
-  );
+  .on(addTodo, (state: ISection, task: ITask) => actions.addTaskAction(state, task))
+  .on(removeTodo, (state: ISection, task: ITask) => actions.removeTaskAction(state, task));
 
 $inProcess
-  .on(addInProcess, (state: ISection, task: ITask) =>
-    actions.addTaskAction(state, task)
-  )
-  .on(removeInProcess, (state: ISection, task: ITask) =>
-    actions.removeTaskAction(state, task)
-  );
+  .on(addInProcess, (state: ISection, task: ITask) => actions.addTaskAction(state, task))
+  .on(removeInProcess, (state: ISection, task: ITask) => actions.removeTaskAction(state, task));
 
 $done
-  .on(addDone, (state: ISection, task: ITask) =>
-    actions.addTaskAction(state, task)
-  )
-  .on(removeDone, (state: ISection, task: ITask) =>
-    actions.removeTaskAction(state, task)
-  );
+  .on(addDone, (state: ISection, task: ITask) => actions.addTaskAction(state, task))
+  .on(removeDone, (state: ISection, task: ITask) => actions.removeTaskAction(state, task));

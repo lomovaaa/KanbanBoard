@@ -1,4 +1,4 @@
-import { SectionAlias } from "./../enums/section-alias.enum";
+import { SectionAlias } from './../enums/section-alias.enum';
 export interface ITask {
   sectionAlias: SectionAlias;
   id: string;
