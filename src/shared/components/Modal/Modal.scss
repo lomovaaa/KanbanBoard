@@ -1,0 +1,105 @@
+@import "../../../app/styles/colors";
+
+.modal {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 999;
+  background: $background-modal;
+
+  &-inner {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 450px;
+    border-radius: 15px;
+    background-color: #f3f3f3;
+  }
+
+  &-header {
+    padding: 12px 28px;
+    color: $white;
+    border-radius: 15px 15px 0 0;
+    background-color: #d37171;
+
+    &__title {
+      font-family: Roboto Condensed;
+      font-weight: normal;
+      font-size: 24px;
+      line-height: 28px;
+    }
+
+    &__close {
+      cursor: pointer;
+      position: absolute;
+      right: 20px;
+      top: 9px;
+      width: 30px;
+      height: 30px;
+      background-color: $white;
+      border-radius: 50%;
+      text-align: center;
+
+      & > .icon-close {
+        color: $pink-light;
+      }
+    }
+  }
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  padding: 23px 33px;
+  background-color: $white;
+  font-family: Roboto;
+
+  &-container {
+    margin: 0 33px;
+  }
+
+  &__item {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 15px;
+  }
+
+  &__label {
+    margin-bottom: 8px;
+    font-family: Roboto;
+    font-weight: 500;
+    font-size: 15px;
+    line-height: 18px;
+    color: #8c8c8c;
+  }
+
+  &__input {
+    padding: 11px 8px;
+    box-shadow: inset 0px 0px 4px rgba(0, 0, 0, 0.05);
+    border-radius: 0px 10px 10px 10px;
+    background-color: #f3f3f3;
+
+    font-weight: 500;
+    font-size: 15px;
+    line-height: 18px;
+    color: #8c8c8c;
+  }
+
+  &__submit-btn {
+    cursor: pointer;
+    padding: 8px 20px;
+    color: #da8e8e;
+    border: 2px solid #da8e8e;
+    border-radius: 10px;
+    font-size: 14px;
+    line-height: 16px;
+
+    &:hover {
+      color: $white;
+      background-color: #da8e8e;
+    }
+  }
+}

@@ -12,6 +12,40 @@
     line-height: 28px;
     color: #c0c0c0;
   }
+
+  &-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    padding: 20px 24px;
+
+    &__title {
+      font-family: "Roboto Condensed";
+      font-weight: normal;
+      font-size: 24px;
+      line-height: 28px;
+      color: #fff;
+    }
+
+    &__task-counter {
+      position: relative;
+      width: 24px;
+      height: 24px;
+      font-size: 14px;
+      line-height: 16px;
+      color: #f3f3f3;
+      border-radius: 50%;
+
+      & span {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+      }
+    }
+  }
+
   &__add-task-btn {
     cursor: pointer;
     align-self: center;

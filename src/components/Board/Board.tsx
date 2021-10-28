@@ -1,44 +1,20 @@
-import React, { useState } from "react";
-import "./Board.scss";
+import { useStore } from "effector-react";
+import React from "react";
+import { ISection } from "../../shared/models/section.interface";
+import { $sections } from "../../shared/store";
 import { Section } from "../Section/Section";
-import { SectionType } from "../../shared/models/section";
-import { TaskType } from "../../shared/models/task";
-import { SectionAlias } from "../../shared/enums/section-alias.enum";
+import "./Board.scss";
+import { DndProvider } from "react-dnd";
+import { HTML5Backend } from "react-dnd-html5-backend";
 
-export const Context = React.createContext<{
-  markTask: (taskId: number) => void;
-}>({
-  markTask: () => {},
-});
-
-export const Board: React.FC<{ sections: SectionType[] }> = ({ sections }) => {
-  const [currSections, setSections] = useState(sections);
-
-  const markTask = (taskId: number) => {
-    let completedTask: TaskType;
-    const updatedSections = currSections.map((section) => {
-      section.tasks = section.tasks.filter((task) => {
-        if (task.id === taskId) {
-          task.completed = !task.completed;
-          completedTask = task;
-        }
-        return task.id !== taskId;
-      });
-      if (section.alias === SectionAlias.DONE) {
-        section.tasks.unshift(completedTask);
-      }
-      return section;
-    });
-    setSections(updatedSections);
-  };
-
+export const Board: React.FC = () => {
   return (
-    <Context.Provider value={{ markTask }}>
+    <DndProvider backend={HTML5Backend}>
       <div className="board">
-        {currSections.map((section: SectionType) => {
+        {useStore($sections).map((section: ISection) => {
           return <Section section={section} key={section.alias} />;
         })}
       </div>
-    </Context.Provider>
+    </DndProvider>
   );
 };

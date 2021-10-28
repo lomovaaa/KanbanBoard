@@ -9,8 +9,8 @@
   color: $main-text;
   border-radius: 15px;
   border-top-left-radius: 0;
-  background-color: #fff;
-  box-shadow: -2px 2px 4px rgba(0, 0, 0, 0.05);
+  background-color: $white;
+  box-shadow: -2px 2px 4px $task-shadow;
 
   &--completed {
     text-decoration: line-through;
@@ -18,11 +18,12 @@
 
   &__title {
     margin-bottom: 3px;
-    color: #3f454b;
+    color: $title;
     font-weight: 500;
     font-size: 20px;
     line-height: 23px;
   }
+
   &__drag {
     cursor: pointer;
     width: 16px;
@@ -31,11 +32,13 @@
     top: 15px;
     right: 15px;
   }
+
   &__date {
     margin-bottom: 20px;
     font-size: 15px;
     line-height: 18px;
   }
+
   &__content {
     width: 275px;
     margin-bottom: 28px;
@@ -51,5 +54,26 @@
     -webkit-box-orient: vertical;
     line-height: 1.3em;
     max-height: 10em;
+  }
+
+  &__actions {
+    margin-left: auto;
+  }
+
+  .action {
+    cursor: pointer;
+
+    &__icon {
+      &--mark {
+        color: $done;
+      }
+      &--remove {
+        color: $pink-light;
+      }
+    }
+
+    &:not(:last-child) {
+      margin-right: 8px;
+    }
   }
 }

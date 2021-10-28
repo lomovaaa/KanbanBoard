@@ -1,11 +1,9 @@
 import React from "react";
-import { SectionType } from "../../../shared/models/section";
-import "./SectionHeader.scss";
-// import color from "color";
+import { ISection } from "../../shared/models/section.interface";
+import "./Section.scss";
+// import color from 'color';
 
-export const SectionHeader: React.FC<{ section: SectionType }> = ({
-  section,
-}) => {
+export const SectionHeader: React.FC<{ section: ISection }> = ({ section }) => {
   const accentColor = section.accentColor;
   const styles = {
     header: {
@@ -20,8 +18,8 @@ export const SectionHeader: React.FC<{ section: SectionType }> = ({
 
   return (
     <div className="section-header" style={styles.header}>
-      <h2 className="section__title">{section.title}</h2>
-      <div className="section__task-counter">
+      <h2 className="section-header__title">{section.title}</h2>
+      <div className="section-header__task-counter">
         <span>{section.tasks.length}</span>
       </div>
     </div>

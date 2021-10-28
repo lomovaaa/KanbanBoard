@@ -1,23 +1,39 @@
-import React from "react";
-import "./Section.scss";
-import { SectionType } from "../../shared/models/section";
-import { TaskType } from "../../shared/models/task";
-import { TaskCard } from "../TaskCard/TaskCard";
-import { SectionHeader } from "./SectionHeader/SectionHeader";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import React, { useState } from "react";
+import { useDrop } from "react-dnd";
+import { Modal } from "../../shared/components/Modal/Modal";
+import { ISection } from "../../shared/models/section.interface";
+import { ITask } from "../../shared/models/task.interface";
+import { moveTask } from "../../shared/store";
+import { CreateTaskForm } from "../CreateTaskForm/CreateTaskForm";
+import { TaskCard } from "../TaskCard/TaskCard";
+import "./Section.scss";
+import { SectionHeader } from "./SectionHeader";
 
-export const Section: React.FC<{ section: SectionType; key: string }> = (
-  props
-) => {
-  library.add(faPlus);
-  let taskElements;
-  const section = props.section;
+library.add(faPlus);
+
+export const Section: React.FC<{ section: ISection }> = ({ section }) => {
+  const [isShowModal, setModal] = useState(false);
+  const onClose = () => setModal(false);
+
+  const [{}, drop] = useDrop(() => {
+    return {
+      accept: "task",
+      drop: (item: ITask) =>
+        moveTask({ task: item, targetAlias: section.alias }),
+      collect: (monitor) => ({
+        isOver: !!monitor.isOver(),
+      }),
+    };
+  });
+
+  let sectionContent: JSX.Element;
   if (section.tasks.length > 0) {
-    taskElements = (
-      <div className="cards">
-        {section.tasks.map((task: TaskType) => {
+    sectionContent = (
+      <div className="tasks">
+        {section.tasks.map((task: ITask) => {
           return (
             <TaskCard
               task={task}
@@ -29,16 +45,29 @@ export const Section: React.FC<{ section: SectionType; key: string }> = (
       </div>
     );
   } else {
-    taskElements = <p className="section--empty">Empty section</p>;
+    sectionContent = (
+      <p className="section--empty">
+        Drag your tasks here or press + to add new tasks
+      </p>
+    );
   }
 
   return (
-    <div className="section">
+    <div className="section" ref={drop}>
       <SectionHeader section={section} />
-      <div className="tasks">{taskElements}</div>
-      <button className="section__add-task-btn" type="button">
+      {sectionContent}
+      <button
+        className="section__add-task-btn"
+        type="button"
+        onClick={() => setModal(true)}
+      >
         <FontAwesomeIcon className="icon icon__plus" icon={["fas", "plus"]} />
       </button>
+      <Modal
+        visible={isShowModal}
+        onClose={onClose}
+        form={<CreateTaskForm sectionAlias={section.alias} onClose={onClose} />}
+      />
     </div>
   );
 };

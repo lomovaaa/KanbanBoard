@@ -195,6 +195,8 @@ button,
 select,
 optgroup,
 textarea {
+  outline: none;
+  border: none;
   margin: 0;
   font-family: inherit;
   font-size: inherit;
