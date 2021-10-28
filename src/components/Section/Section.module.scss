@@ -1,9 +1,9 @@
 .section {
   display: flex;
   flex-direction: column;
-  width: 384px;
+  width: 25%;
 
-  &--empty {
+  &_empty {
     padding: 0 48px 20px 48px;
     padding-top: 50%;
     text-align: center;

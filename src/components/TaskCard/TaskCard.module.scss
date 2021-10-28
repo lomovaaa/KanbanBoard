@@ -12,7 +12,7 @@
   background-color: $white;
   box-shadow: -2px 2px 4px $task-shadow;
 
-  &--completed {
+  &_completed {
     text-decoration: line-through;
   }
 
@@ -64,10 +64,10 @@
     cursor: pointer;
 
     &__icon {
-      &--mark {
+      &_mark {
         color: $done;
       }
-      &--remove {
+      &_remove {
         color: $pink-light;
       }
     }
