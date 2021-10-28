@@ -1,0 +1,47 @@
+.section {
+  display: flex;
+  flex-direction: column;
+  width: 384px;
+
+  &--empty {
+    padding: 0 48px 20px 48px;
+    padding-top: 50%;
+    text-align: center;
+    font-weight: 500;
+    font-size: 24px;
+    line-height: 28px;
+    color: #c0c0c0;
+  }
+  &__add-task-btn {
+    cursor: pointer;
+    align-self: center;
+    width: 32px;
+    height: 32px;
+    position: relative;
+    border-radius: 50%;
+    background-color: #fff;
+    box-shadow: -2px 2px 4px rgba(0, 0, 0, 0.05);
+  }
+}
+
+.tasks {
+  display: flex;
+  flex-direction: column;
+  padding: 12px 6px 6px 12px;
+  overflow-y: auto;
+  &__bottom {
+    display: flex;
+    justify-content: space-between;
+  }
+}
+
+.icon {
+  &__plus {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 13px;
+    color: #8c8c8c;
+  }
+}

@@ -1,0 +1,55 @@
+@import "../../app/styles/colors";
+
+.task {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 12px;
+  padding: 15px;
+  color: $main-text;
+  border-radius: 15px;
+  border-top-left-radius: 0;
+  background-color: #fff;
+  box-shadow: -2px 2px 4px rgba(0, 0, 0, 0.05);
+
+  &--completed {
+    text-decoration: line-through;
+  }
+
+  &__title {
+    margin-bottom: 3px;
+    color: #3f454b;
+    font-weight: 500;
+    font-size: 20px;
+    line-height: 23px;
+  }
+  &__drag {
+    cursor: pointer;
+    width: 16px;
+    height: 16px;
+    position: absolute;
+    top: 15px;
+    right: 15px;
+  }
+  &__date {
+    margin-bottom: 20px;
+    font-size: 15px;
+    line-height: 18px;
+  }
+  &__content {
+    width: 275px;
+    margin-bottom: 28px;
+    height: 100%;
+    font-family: "Rubik";
+    font-size: 14px;
+    line-height: 17px;
+    color: #8c8c8c;
+
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 4;
+    -webkit-box-orient: vertical;
+    line-height: 1.3em;
+    max-height: 10em;
+  }
+}
